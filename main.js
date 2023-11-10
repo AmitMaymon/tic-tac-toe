@@ -5,6 +5,11 @@ usedTiles = []
 
 function clickBoard(num) {
     tile = document.getElementById(`td${num}`)
+    rowId = tile.parentElement.id //gets The id of the tr element
+    rowId=rowId[rowId.length -1]
+
+    console.log(`Row: ${rowId} Num: ${num}`) //DEBUG
+
 
     //if trying to click a space that already been clicked on
     if (usedTiles.includes(`td${num}`)) {
@@ -24,6 +29,7 @@ function clickBoard(num) {
         tile.appendChild(x)
         turn++
         // TODO - insert win Condition
+        winCond('x',rowId,num)
         trackMoves('x',num)
 
 
@@ -36,10 +42,38 @@ function clickBoard(num) {
         tile.appendChild(o)
         turn++
         // TODO - insert win Condition
+        winCond('o',rowId,num)
         trackMoves('o',num)
 
     }
 }
+grid = 3
+winTracker = [[[],[],[]],[[],[],[]],[[],[],[]]]
+function winCond(player,rowId,num){
+    for(let i = 0;i<grid;i++){
+        winTracker[i][rowId][num-(grid*rowId)] = player
+    }
+
+    console.log(winTracker)
+
+
+
+
+}
+
+function winCondRow(){
+    
+}
+function winCondCol(){
+
+}
+function winCondDia(){
+
+}
+
+
+
+
 
 
 moveOrder = []

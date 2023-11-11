@@ -10,7 +10,7 @@
 </head>
 
 <body onload="winTrackerFill()">
-  <table border="1">
+  <table border="1" style="background-color:burlywood;">
     <tr id="tr0">
       <td id="td0" onclick="clickBoard(0)"></td>
       <td id="td1" onclick="clickBoard(1)"></td>
@@ -29,6 +29,9 @@
   </table>
   <button onclick="newGame()">New Game</button>
   <button onclick="reDoMove()">Re Do</button>
+  <button onclick="saveGame()">Save Game</button>
+  <button onclick="loadGame()">Load Game</button>
+  <button onclick="showBestScore()">Best Score</button>
 
   <script src="main.js"></script>
 </body>

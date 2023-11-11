@@ -28,9 +28,9 @@ function clickBoard(num) {
 
         tile.appendChild(x)
         turn++
-        
+
         winCond('x', rowId, num)
-        trackMoves('x', num,rowId)
+        trackMoves('x', num, rowId)
 
 
     } else {
@@ -41,9 +41,9 @@ function clickBoard(num) {
 
         tile.appendChild(o)
         turn++
-        
+
         winCond('o', rowId, num)
-        trackMoves('o', num,rowId)
+        trackMoves('o', num, rowId)
 
     }
 }
@@ -69,7 +69,7 @@ function winTrackerFill() {
     }
 
 
-    
+
 }
 
 
@@ -79,7 +79,7 @@ function winCond(player, rowId, num) {
         winTracker[i][rowId][num - (grid * rowId)] = player
     }
 
-    
+
     winCondRow()
     winCondCol()
     winCondDia()
@@ -92,19 +92,23 @@ function winCondRow() {
     for (let i = 0; i < grid; i++) {
         let xtrack = 0
         let otrack = 0
+        const winningTiles = []
         for (let j = 0; j < grid; j++) {
 
 
             if (winTracker[0][i][j] == 'x') {
-
+                winningTiles.push(j + (i * grid))
                 xtrack++
             }
             if (winTracker[0][i][j] == 'o') {
+                winningTiles.push(j + (i * grid))
                 otrack++
             }
         }
-        if (xtrack == grid || otrack == 3) {
-            xtrack == grid ? win('X') : win('O')
+        if (xtrack == grid || otrack == grid) {
+
+            console.log(winningTiles)
+            xtrack == grid ? win('X', winningTiles) : win('O', winningTiles)
             break
         }
     }
@@ -112,22 +116,26 @@ function winCondRow() {
 function winCondCol() {
 
     for (let i = 0; i < grid; i++) {
-        const boardLine = []
         let countx = 0
         let counto = 0
+        const winningTiles = []
         for (let j = 0; j < grid; j++) {
-            boardLine.push(winTracker[1][j][i])
-            if (winTracker[1][j][i] == 'x')
+
+            if (winTracker[1][j][i] == 'x') {
+                winningTiles.push(i + (j * grid))
                 countx++
-            if (winTracker[1][j][i] == 'o')
+            }
+            if (winTracker[1][j][i] == 'o') {
+                winningTiles.push(i + (j * grid))
                 counto++
+            }
         }
         if (countx == grid) {
-            win('X')
+            win('X', winningTiles)
             break
         }
         if (counto == grid) {
-            win('O')
+            win('O', winningTiles)
             break
         }
         // console.log('Column: ', i, ' - BL: ', boardLine) //DEBUG
@@ -145,25 +153,36 @@ function winCondDia() {
     let secondDiaX = 0
     let firstDiaO = 0
     let secondDiaO = 0
+    const winningTilesX = []
+    const winningTilesO = []
 
     for (let i = 0; i < grid; i++) {
-        if (winTracker[2][i][i] == 'x')
+        if (winTracker[2][i][i] == 'x') {
+            winningTilesX.push(i + (i * grid))
             firstDiaX++
-        if (winTracker[2][i][i] == 'o')
+        }
+        if (winTracker[2][i][i] == 'o') {
+            winningTilesO.push(i + (i * grid))
             firstDiaO++
-        if (winTracker[2][i][grid - 1 - i] == 'x')
+        }
+        if (winTracker[2][i][grid - 1 - i] == 'x') {
+            winningTilesX.push(i + ((grid - 1 - i) * grid))
             secondDiaX++
-        if (winTracker[2][i][grid - 1 - i] == 'o')
+        }
+        if (winTracker[2][i][grid - 1 - i] == 'o') {
+            winningTilesO.push(i + ((grid - 1 - i) * grid))
             secondDiaO++
+        }
 
     }
 
     if (firstDiaX == grid || secondDiaX == grid) {
-        win('X')
+        console.log(winningTilesX)
+        win('X', winningTilesX)
         return
     }
     if (firstDiaO == grid || secondDiaO == grid) {
-        win('O')
+        win('O', winningTilesO)
         return
     }
 
@@ -173,15 +192,45 @@ function winCondDia() {
 
 }
 
+
+function saveGame() {
+    console.log(moveOrder)
+    localStorage.setItem('gameState', JSON.stringify(moveOrder))
+
+}
+function loadGame() {
+
+    newGame()
+    savedGame = JSON.parse(localStorage.getItem('gameState'))
+    console.log(savedGame)
+    for(let i = 0;i<savedGame.length;i++){
+        clickBoard(savedGame[i]['tile'])
+
+    }
+}
+
+function showBestScore(){
+    if(localStorage.getItem('bestScore') == 999){
+        alert('No High scores found')
+    }else{
+        alert(`The Highest score is: ${localStorage.getItem('bestScore')}`)
+    }
+
+
+
+}
+
+
+
 moveOrder = []
 index = 0
-function trackMoves(player, tile,rowId) {
+function trackMoves(player, tile, rowId) {
 
     moveOrder.push({
         'index': index,
         'player': player,
         'tile': tile,
-        'row':rowId
+        'row': rowId
     })
     index++
     // console.log('Retrace: ',moveOrder) //DEBUG
@@ -194,11 +243,11 @@ function reDoMove() {
     img.remove()
 
     //Removes from the wintracker array
-    for(let i = 0;i<grid;i++ ){
-        winTracker[i][lastImg['row']][lastImg['tile']-(lastImg['row']*grid)] = '~'
+    for (let i = 0; i < grid; i++) {
+        winTracker[i][lastImg['row']][lastImg['tile'] - (lastImg['row'] * grid)] = '~'
 
     }
-    console.log(lastImg['tile'],winTracker)
+    console.log(lastImg['tile'], winTracker)
 
     usedTiles.pop()
     index--
@@ -208,11 +257,29 @@ function reDoMove() {
     // console.log('UTiles: ',usedTiles,' Turn: ',turn,' Move Order: ',moveOrder) //DEBUG
 }
 
-function win(player){
-    setTimeout(()=>{
+let bestScore = 999
+
+
+function win(player, winningTiles) {
+    localStorage.setItem('bestScore',bestScore)
+    for (let i = 0; i < winningTiles.length; i++) {
+        tile = document.getElementById(`td${winningTiles[i]}`)
+        tile.style.border = '2px solid green'
+
+    }
+    if(localStorage.getItem('bestScore')>moveOrder.length){
+    bestScore = moveOrder.length +1
+    localStorage.setItem('bestScore',bestScore)
+    }
+
+
+
+
+    setTimeout(() => {
         alert(`${player} Wins`)
-    },10)
-    
+        newGame(winningTiles)
+    }, 10)
+
 
 
 
@@ -220,13 +287,27 @@ function win(player){
 }
 
 
-function newGame() {
+function newGame(winningTiles) {
     imgsToRemove = document.querySelectorAll('img')
 
     for (let i = 0; i < imgsToRemove.length; i++) {
         imgsToRemove[i].remove()
 
     }
+    try {
+        for (let i = 0; i < winningTiles.length; i++) {
+            tile = document.getElementById(`td${winningTiles[i]}`)
+            tile.style.border = ''
+
+
+
+
+        }
+    }catch(error){
+        console.log('No win')
+    }
+
+
     usedTiles = []
     turn = 0
     moveOrder = []

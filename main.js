@@ -69,7 +69,7 @@ function winTrackerFill() {
     }
 
 
-    console.log(winTracker)
+    // console.log(winTracker)// DEBUG
 }
 winTrackerFill()
 
@@ -79,9 +79,10 @@ function winCond(player, rowId, num) {
         winTracker[i][rowId][num - (grid * rowId)] = player
     }
 
-    console.log(winTracker)
-    // winCondRow()
+    // console.log(winTracker) //DEBUG
+    winCondRow()
     winCondCol()
+    winCondDia()
 
 
 }
@@ -110,18 +111,68 @@ function winCondRow() {
 }
 function winCondCol() {
 
+    for (let i = 0; i < grid; i++) {
+        const boardLine = []
+        let countx = 0
+        let counto = 0
+        for (let j = 0; j < grid; j++) {
+            boardLine.push(winTracker[1][j][i])
+            if(winTracker[1][j][i]=='x')
+                countx++
+            if(winTracker[1][j][i]=='o')
+                counto++
+        }
+        if(countx == grid){
+            console.log('x wins')
+            break
+        }
+        if(counto == grid){
+            console.log('o wins')
+            break
+        }
+        // console.log('Column: ', i, ' - BL: ', boardLine) //DEBUG
+        
+
+    }
+    
 
 
 
 }
+
+
 function winCondDia() {
+    let firstDiaX = 0
+    let secondDiaX = 0
+    let firstDiaO = 0
+    let secondDiaO = 0
+
+    for(let i = 0;i<grid;i++){
+        if(winTracker[2][i][i] == 'x')
+            firstDiaX++
+        if(winTracker[2][i][i] == 'o')
+            firstDiaO++
+        if(winTracker[2][i][grid - 1 - i] == 'x')
+            secondDiaX++
+        if(winTracker[2][i][grid - 1 - i] == 'o')
+            secondDiaO++
+        
+    }
+
+    if(firstDiaX == grid || secondDiaX == grid){
+        console.log('X wins')
+        return
+    }
+    if(firstDiaO == grid || secondDiaO == grid){
+        console.log('O wins')
+        return
+    }
+
+
+
+    // console.log('First: ',firstDiaX,firstDiaO,"\nSecond: ",secondDiaX,secondDiaO) //DEBUG
 
 }
-
-
-
-
-
 
 moveOrder = []
 index = 0

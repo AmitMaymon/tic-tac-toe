@@ -89,6 +89,18 @@ function winCond(player, rowId, num) {
     winCondRow()
     winCondCol()
     winCondDia()
+    tieCheck()
+
+
+
+}
+
+function tieCheck() {
+    setTimeout(() => {
+        if (moveOrder.length >= grid * grid) {
+            alert('Tie')
+        }
+    }, 50)
 
 
 }
@@ -208,7 +220,7 @@ function loadGame() {
 
     newGame()
     savedGame = JSON.parse(localStorage.getItem('gameState'))
-    console.log(savedGame)
+    changeGrid(savedGame[0]['grid'])
     for (let i = 0; i < savedGame.length; i++) {
         clickBoard(savedGame[i]['tile'])
 
@@ -236,7 +248,8 @@ function trackMoves(player, tile, rowId) {
         'index': index,
         'player': player,
         'tile': tile,
-        'row': rowId
+        'row': rowId,
+        'grid': grid
     })
     index++
     // console.log('Retrace: ',moveOrder) //DEBUG
@@ -297,8 +310,8 @@ function newGame(winningTiles) {
     imgsToRemove = document.querySelectorAll('img')
 
     for (let i = 0; i < imgsToRemove.length; i++) {
-        if(imgsToRemove[i].id == 'banner')
-        continue
+        if (imgsToRemove[i].id == 'banner')
+            continue
         imgsToRemove[i].remove()
 
     }
@@ -323,8 +336,12 @@ function newGame(winningTiles) {
     winTrackerFill()
 }
 
-function changeGrid() {
-    grid = +prompt('Enter the grid size')
+function changeGrid(x) {
+    if (!x) {
+        grid = +prompt('Enter the grid size')
+    } else {
+        grid = x
+    }
     if (grid % 2 == 0 || grid < 3) {
         alert('Please enter an ODD number above 3')
         return
@@ -346,7 +363,7 @@ function changeGrid() {
         if (i < grid) {
             tr = document.createElement('tr')
             tr.id = `tr${i}`
-            
+
         }
 
         for (let j = 0; j < grid; j++) {
@@ -373,24 +390,24 @@ function changeGrid() {
 }
 
 let hardModeStatus = false
-function hardMode(){
+function hardMode() {
     table = document.getElementById('mainTable')
-    if(hardModeStatus == true){
+    if (hardModeStatus == true) {
         table.style.animation = ''
-        
+
         hardModeStatus = false
         return
     }
-    
+
     table.style.animation = 'rotate 2s infinite linear'
     console.log('animation started')
     hardModeStatus = true
 }
 
-function introAnimation(){
+function introAnimation() {
     console.log('test')
     table = document.getElementById('mainTable')
-    table.style.animation ='slideIn 1s ease-out';
+    table.style.animation = 'slideIn 1s ease-out';
 }
 
 

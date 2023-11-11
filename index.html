@@ -3,19 +3,16 @@
 <head>
   <link rel="stylesheet" href="style.css">
   <title>Tic Tac Toe</title>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-
 </head>
+
 <div class="container">
   <div >
     <img src="./assets/banner.png" alt="banner" id="banner" style="width: 617px; height: 199px;">
 
 
   </div>
-
   <body onload="winTrackerFill(),introAnimation()" style="background-color:#a1bfb8;" >
-    <table id="mainTable" border="1" style="background-color: transparent;">
+    <table  class="custom-table" id="mainTable" border="2" style="background-color: transparent; table-layout: fixed;">
       <tr id="tr0">
         <td id="td0" onclick="clickBoard(0)"></td>
         <td id="td1" onclick="clickBoard(1)"></td>
@@ -32,15 +29,15 @@
         <td id="td8" onclick="clickBoard(8)"></td>
       </tr>
     </table>
-    <img src="./assets/credit.png" alt="" style="width: 154px; height: 48px; opacity: 25%;margin-left: 325px;;">
+    <img id="credit" src="./assets/credit.png" alt="" style="width: 154px; height: 48px; opacity: 25%;margin-left: 325px;">
     <div class="buttons">
-      <button onclick="newGame()">New Game</button>
-      <button onclick="reDoMove()">Re Do</button>
-      <button onclick="saveGame()">Save Game</button>
-      <button onclick="loadGame()">Load Game</button>
-      <button onclick="showBestScore()">Best Score</button>
-      <button onclick="changeGrid()">Grid</button>
-      <button onclick="hardMode()">HardMode</button>
+      <button class="button-30" role="button" onclick="newGame()">New Game</button>
+      <button class="button-30" role="button" onclick="reDoMove()">Re Do</button>
+      <button class="button-30" role="button" onclick="saveGame()">Save Game</button>
+      <button class="button-30" role="button" onclick="loadGame()">Load Game</button>
+      <button class="button-30" role="button" onclick="showBestScore()">Best Score</button>
+      <button class="button-30" role="button" onclick="changeGrid()">Grid</button>
+      <button id='test' class="button-30" role="button" onclick="hardMode()">HardMode</button>
     </div>
     
     

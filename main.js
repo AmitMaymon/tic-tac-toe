@@ -310,7 +310,7 @@ function newGame(winningTiles) {
     imgsToRemove = document.querySelectorAll('img')
 
     for (let i = 0; i < imgsToRemove.length; i++) {
-        if (imgsToRemove[i].id == 'banner')
+        if (imgsToRemove[i].id == 'banner' || imgsToRemove[i].id == 'credit')
             continue
         imgsToRemove[i].remove()
 
@@ -391,6 +391,11 @@ function changeGrid(x) {
 
 let hardModeStatus = false
 function hardMode() {
+    const button = document.getElementById('test');
+    button.classList.toggle('button-pressed');
+
+
+
     table = document.getElementById('mainTable')
     if (hardModeStatus == true) {
         table.style.animation = ''

@@ -6,7 +6,8 @@ usedTiles = []
 function clickBoard(num) {
     tile = document.getElementById(`td${num}`)
     rowId = tile.parentElement.id //gets The id of the tr element
-    rowId = rowId[rowId.length - 1]
+    rowId = rowId.substring(2)
+
 
     console.log(`Row: ${rowId} Num: ${num}`) //DEBUG
 
@@ -46,11 +47,13 @@ function clickBoard(num) {
         trackMoves('o', num, rowId)
 
     }
+    console.log(winTracker)
 }
-grid = 3
+var grid = 3
 winTracker = []
 
 function winTrackerFill() {
+    winTracker = []
 
     for (let i = 0; i < 3; i++) {
         winTracker.push([])
@@ -75,9 +78,12 @@ function winTrackerFill() {
 
 
 function winCond(player, rowId, num) {
-    for (let i = 0; i < grid; i++) {
+
+
+    for (let i = 0; i < 3; i++) {
         winTracker[i][rowId][num - (grid * rowId)] = player
     }
+
 
 
     winCondRow()
@@ -203,16 +209,16 @@ function loadGame() {
     newGame()
     savedGame = JSON.parse(localStorage.getItem('gameState'))
     console.log(savedGame)
-    for(let i = 0;i<savedGame.length;i++){
+    for (let i = 0; i < savedGame.length; i++) {
         clickBoard(savedGame[i]['tile'])
 
     }
 }
 
-function showBestScore(){
-    if(localStorage.getItem('bestScore') == 999){
+function showBestScore() {
+    if (localStorage.getItem('bestScore') == 999) {
         alert('No High scores found')
-    }else{
+    } else {
         alert(`The Highest score is: ${localStorage.getItem('bestScore')}`)
     }
 
@@ -261,15 +267,15 @@ let bestScore = 999
 
 
 function win(player, winningTiles) {
-    localStorage.setItem('bestScore',bestScore)
+    localStorage.setItem('bestScore', bestScore)
     for (let i = 0; i < winningTiles.length; i++) {
         tile = document.getElementById(`td${winningTiles[i]}`)
         tile.style.border = '2px solid green'
 
     }
-    if(localStorage.getItem('bestScore')>moveOrder.length){
-    bestScore = moveOrder.length +1
-    localStorage.setItem('bestScore',bestScore)
+    if (localStorage.getItem('bestScore') > moveOrder.length) {
+        bestScore = moveOrder.length + 1
+        localStorage.setItem('bestScore', bestScore)
     }
 
 
@@ -278,7 +284,7 @@ function win(player, winningTiles) {
     setTimeout(() => {
         alert(`${player} Wins`)
         newGame(winningTiles)
-    }, 10)
+    }, 50)
 
 
 
@@ -291,6 +297,8 @@ function newGame(winningTiles) {
     imgsToRemove = document.querySelectorAll('img')
 
     for (let i = 0; i < imgsToRemove.length; i++) {
+        if(imgsToRemove[i].id == 'banner')
+        continue
         imgsToRemove[i].remove()
 
     }
@@ -303,7 +311,7 @@ function newGame(winningTiles) {
 
 
         }
-    }catch(error){
+    } catch (error) {
         console.log('No win')
     }
 
@@ -315,7 +323,75 @@ function newGame(winningTiles) {
     winTrackerFill()
 }
 
+function changeGrid() {
+    grid = +prompt('Enter the grid size')
+    if (grid % 2 == 0 || grid < 3) {
+        alert('Please enter an ODD number above 3')
+        return
+    }
+    winTrackerFill()
+    console.log(grid)
+    console.log(winTracker)
+    oldTrs = document.querySelectorAll('tr')
 
+    for (let i = 0; i < oldTrs.length; i++) {
+        oldTrs[i].remove()
+
+    }
+
+    table = document.getElementById('mainTable')
+
+    let idcounter = 0
+    for (let i = 0; i < grid; i++) {
+        if (i < grid) {
+            tr = document.createElement('tr')
+            tr.id = `tr${i}`
+            
+        }
+
+        for (let j = 0; j < grid; j++) {
+            td = document.createElement('td')
+            td.id = `td${idcounter}`
+            td.setAttribute('onclick', `clickBoard(${idcounter})`)
+
+
+            tr.appendChild(td)
+
+            idcounter++
+        }
+        table.appendChild(tr)
+
+    }
+
+
+
+
+
+
+
+
+}
+
+let hardModeStatus = false
+function hardMode(){
+    table = document.getElementById('mainTable')
+    if(hardModeStatus == true){
+        table.style.animation = ''
+        
+        hardModeStatus = false
+        return
+    }
+    
+    table.style.animation = 'rotate 2s infinite linear'
+    console.log('animation started')
+    hardModeStatus = true
+}
+
+function introAnimation(){
+    console.log('test')
+    table = document.getElementById('mainTable')
+    table.style.animation ='slideIn 1s ease-out';
+}
 
 
 

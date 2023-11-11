@@ -1,39 +1,45 @@
 <html>
+
 <head>
-  <style>
-    td,
-    img {
-      width: 150px;
-      height: 150px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+
 </head>
+<div class="container">
+  <div >
+    <img src="./assets/banner.png" alt="banner" id="banner" style="width: 617px; height: 199px;">
 
-<body onload="winTrackerFill()">
-  <table border="1" style="background-color:burlywood;">
-    <tr id="tr0">
-      <td id="td0" onclick="clickBoard(0)"></td>
-      <td id="td1" onclick="clickBoard(1)"></td>
-      <td id="td2" onclick="clickBoard(2)"></td>
-    </tr>
-    <tr id="tr1">
-      <td id="td3" onclick="clickBoard(3)"></td>
-      <td id="td4" onclick="clickBoard(4)"></td>
-      <td id="td5" onclick="clickBoard(5)"></td>
-    </tr>
-    <tr id="tr2">
-      <td id="td6" onclick="clickBoard(6)"></td>
-      <td id="td7" onclick="clickBoard(7)"></td>
-      <td id="td8" onclick="clickBoard(8)"></td>
-    </tr>
-  </table>
-  <button onclick="newGame()">New Game</button>
-  <button onclick="reDoMove()">Re Do</button>
-  <button onclick="saveGame()">Save Game</button>
-  <button onclick="loadGame()">Load Game</button>
-  <button onclick="showBestScore()">Best Score</button>
 
-  <script src="main.js"></script>
+  </div>
+
+  <body onload="winTrackerFill(),introAnimation()" style="background-color:#a1bfb8;" >
+    <table id="mainTable" border="1" style="background-color: transparent;">
+      <tr id="tr0">
+        <td id="td0" onclick="clickBoard(0)"></td>
+        <td id="td1" onclick="clickBoard(1)"></td>
+        <td id="td2" onclick="clickBoard(2)"></td>
+      </tr>
+      <tr id="tr1">
+        <td id="td3" onclick="clickBoard(3)"></td>
+        <td id="td4" onclick="clickBoard(4)"></td>
+        <td id="td5" onclick="clickBoard(5)"></td>
+      </tr>
+      <tr id="tr2">
+        <td id="td6" onclick="clickBoard(6)"></td>
+        <td id="td7" onclick="clickBoard(7)"></td>
+        <td id="td8" onclick="clickBoard(8)"></td>
+      </tr>
+    </table>
+    <div class="buttons">
+      <button onclick="newGame()">New Game</button>
+      <button onclick="reDoMove()">Re Do</button>
+      <button onclick="saveGame()">Save Game</button>
+      <button onclick="loadGame()">Load Game</button>
+      <button onclick="showBestScore()">Best Score</button>
+      <button onclick="changeGrid()">Grid</button>
+      <button onclick="hardMode()">HardMode</button>
+    </div>
+</div>
+<script src="main.js"></script>
 </body>
 
 </html>

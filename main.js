@@ -28,9 +28,9 @@ function clickBoard(num) {
 
         tile.appendChild(x)
         turn++
-        // TODO - insert win Condition
+        
         winCond('x', rowId, num)
-        trackMoves('x', num)
+        trackMoves('x', num,rowId)
 
 
     } else {
@@ -41,9 +41,9 @@ function clickBoard(num) {
 
         tile.appendChild(o)
         turn++
-        // TODO - insert win Condition
+        
         winCond('o', rowId, num)
-        trackMoves('o', num)
+        trackMoves('o', num,rowId)
 
     }
 }
@@ -69,9 +69,9 @@ function winTrackerFill() {
     }
 
 
-    // console.log(winTracker)// DEBUG
+    
 }
-winTrackerFill()
+
 
 
 function winCond(player, rowId, num) {
@@ -79,7 +79,7 @@ function winCond(player, rowId, num) {
         winTracker[i][rowId][num - (grid * rowId)] = player
     }
 
-    // console.log(winTracker) //DEBUG
+    
     winCondRow()
     winCondCol()
     winCondDia()
@@ -104,7 +104,7 @@ function winCondRow() {
             }
         }
         if (xtrack == grid || otrack == 3) {
-            xtrack == grid ? console.log('x wins') : console.log('o wins')
+            xtrack == grid ? win('X') : win('O')
             break
         }
     }
@@ -117,29 +117,28 @@ function winCondCol() {
         let counto = 0
         for (let j = 0; j < grid; j++) {
             boardLine.push(winTracker[1][j][i])
-            if(winTracker[1][j][i]=='x')
+            if (winTracker[1][j][i] == 'x')
                 countx++
-            if(winTracker[1][j][i]=='o')
+            if (winTracker[1][j][i] == 'o')
                 counto++
         }
-        if(countx == grid){
-            console.log('x wins')
+        if (countx == grid) {
+            win('X')
             break
         }
-        if(counto == grid){
-            console.log('o wins')
+        if (counto == grid) {
+            win('O')
             break
         }
         // console.log('Column: ', i, ' - BL: ', boardLine) //DEBUG
-        
+
 
     }
-    
+
 
 
 
 }
-
 
 function winCondDia() {
     let firstDiaX = 0
@@ -147,24 +146,24 @@ function winCondDia() {
     let firstDiaO = 0
     let secondDiaO = 0
 
-    for(let i = 0;i<grid;i++){
-        if(winTracker[2][i][i] == 'x')
+    for (let i = 0; i < grid; i++) {
+        if (winTracker[2][i][i] == 'x')
             firstDiaX++
-        if(winTracker[2][i][i] == 'o')
+        if (winTracker[2][i][i] == 'o')
             firstDiaO++
-        if(winTracker[2][i][grid - 1 - i] == 'x')
+        if (winTracker[2][i][grid - 1 - i] == 'x')
             secondDiaX++
-        if(winTracker[2][i][grid - 1 - i] == 'o')
+        if (winTracker[2][i][grid - 1 - i] == 'o')
             secondDiaO++
-        
+
     }
 
-    if(firstDiaX == grid || secondDiaX == grid){
-        console.log('X wins')
+    if (firstDiaX == grid || secondDiaX == grid) {
+        win('X')
         return
     }
-    if(firstDiaO == grid || secondDiaO == grid){
-        console.log('O wins')
+    if (firstDiaO == grid || secondDiaO == grid) {
+        win('O')
         return
     }
 
@@ -176,12 +175,13 @@ function winCondDia() {
 
 moveOrder = []
 index = 0
-function trackMoves(player, tile) {
+function trackMoves(player, tile,rowId) {
 
     moveOrder.push({
         'index': index,
         'player': player,
-        'tile': tile
+        'tile': tile,
+        'row':rowId
     })
     index++
     // console.log('Retrace: ',moveOrder) //DEBUG
@@ -193,17 +193,33 @@ function reDoMove() {
     img = document.getElementById(`tile${lastImg['tile']}`)
     img.remove()
 
+    //Removes from the wintracker array
+    for(let i = 0;i<grid;i++ ){
+        winTracker[i][lastImg['row']][lastImg['tile']-(lastImg['row']*grid)] = '~'
+
+    }
+    console.log(lastImg['tile'],winTracker)
+
     usedTiles.pop()
     index--
     turn = turn - 1
 
 
     // console.log('UTiles: ',usedTiles,' Turn: ',turn,' Move Order: ',moveOrder) //DEBUG
+}
 
-    reDoRemoveData(lastImg['player'], lastImg['tile'])
+function win(player){
+    setTimeout(()=>{
+        alert(`${player} Wins`)
+    },10)
+    
+
+
 
 
 }
+
+
 function newGame() {
     imgsToRemove = document.querySelectorAll('img')
 
@@ -214,6 +230,8 @@ function newGame() {
     usedTiles = []
     turn = 0
     moveOrder = []
+    winTracker = []
+    winTrackerFill()
 }
 
 

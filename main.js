@@ -226,9 +226,9 @@ function loadGame() {
 
 function showBestScore() {
     if (localStorage.getItem('bestScore') == 999) {
-        alert('No High scores found')
+        winAlert('No High scores found')
     } else {
-        alert(`The Highest score is: ${localStorage.getItem('bestScore')}`)
+        winAlert(`The Highest score is: ${localStorage.getItem('bestScore')}`)
     }
 
 
@@ -279,8 +279,8 @@ function win(player, winningTiles) {
     localStorage.setItem('bestScore', bestScore)
     for (let i = 0; i < winningTiles.length; i++) {
         tile = document.getElementById(`td${winningTiles[i]}`)
-        tile.style.border = '2px solid green'
-
+        tile.style.border = '4px solid azure'
+        tile.classList = "fill-animation"
     }
     if (localStorage.getItem('bestScore') > moveOrder.length) {
         bestScore = moveOrder.length + 1
@@ -307,6 +307,7 @@ function newGame(winningTiles) {
         for (let i = 0; i < winningTiles.length; i++) {
             tile = document.getElementById(`td${winningTiles[i]}`)
             tile.style.border = ''
+            tile.classList = ''
 
 
 

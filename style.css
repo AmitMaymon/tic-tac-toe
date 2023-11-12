@@ -255,3 +255,15 @@ img {
         scale: 1;
     }
 }
+
+/* --------------Mobile-Integration-------------- */
+@media only screen and (max-width:600px)  {
+    body{
+        display: flex;
+        
+    }
+    .buttons{
+        visibility: hidden;
+
+    }
+}

@@ -8,7 +8,8 @@ function clickBoard(num) {
     rowId = tile.parentElement.id //gets The id of the tr element
     rowId = rowId.substring(2)
 
-
+    randomClick()
+    
     // console.log(`Row: ${rowId} Num: ${num}`) //DEBUG
 
 
@@ -97,7 +98,7 @@ function winCond(player, rowId, num) {
 
 function tieCheck() {
     setTimeout(() => {
-        if (moveOrder.length >= grid * grid) {
+        if (moveOrder.length >= grid * grid && isItAwin == false) {
             winAlert(`Its a Tie`)
         }
     }, 50)
@@ -169,13 +170,14 @@ function winCondDia() {
     let secondDiaX = 0
     let firstDiaO = 0
     let secondDiaO = 0
+    
     const winningTilesX = []
     const winningTilesO = []
-
+    
     for (let i = 0; i < grid; i++) {
         if (winTracker[2][i][i] == 'x') {
-            winningTilesX.push(i + (i * grid))
-            firstDiaX++
+                winningTilesX.push(i + (i * grid))
+                firstDiaX++   
         }
         if (winTracker[2][i][i] == 'o') {
             winningTilesO.push(i + (i * grid))
@@ -184,6 +186,7 @@ function winCondDia() {
         if (winTracker[2][i][grid - 1 - i] == 'x') {
             winningTilesX.push(i + ((grid - 1 - i) * grid))
             secondDiaX++
+            
         }
         if (winTracker[2][i][grid - 1 - i] == 'o') {
             winningTilesO.push(i + ((grid - 1 - i) * grid))
@@ -191,7 +194,7 @@ function winCondDia() {
         }
 
     }
-
+    console.log(winningTilesX,winningTilesO)
     if (firstDiaX == grid || secondDiaX == grid) {
         win('X', winningTilesX)
         return
@@ -274,7 +277,7 @@ function reDoMove() {
 
 let bestScore = 999
 
-
+isItAwin = false
 function win(player, winningTiles) {
     localStorage.setItem('bestScore', bestScore)
     for (let i = 0; i < winningTiles.length; i++) {
@@ -287,14 +290,16 @@ function win(player, winningTiles) {
         localStorage.setItem('bestScore', bestScore)
     }
 
-
-    localStorage.setItem('winningTiles',JSON.stringify(winningTiles))
+    isItAwin = true
+    localStorage.setItem('winningTiles', JSON.stringify(winningTiles))
     winAlert(`${player} Wins!`)
+    
 
 }
 
 
 function newGame(winningTiles) {
+    isItAwin = false
     imgsToRemove = document.querySelectorAll('img')
 
     for (let i = 0; i < imgsToRemove.length; i++) {
@@ -366,14 +371,6 @@ function changeGrid(x) {
         table.appendChild(tr)
 
     }
-
-
-
-
-
-
-
-
 }
 
 let hardModeStatus = false
@@ -402,7 +399,7 @@ function introAnimation() {
 }
 let temp = true
 function winAlert(message) {
-    
+
     document.getElementById('winText').innerText = message;
     document.getElementById('winOverlay').style.display = 'flex';
 
@@ -410,13 +407,29 @@ function winAlert(message) {
 }
 
 function closeWinOverlay() {
-    
+
     winningTiles = JSON.parse(localStorage.getItem('winningTiles'))
     newGame(winningTiles)
     document.getElementById('winOverlay').style.display = 'none';
-    
+
 }
 
+function randomClick() {
+    click1 = document.getElementById('click1')
+    click2 = document.getElementById('click2')
+    click3 = document.getElementById('click3')
+    let randomNum = Math.floor(Math.random() * 3)
+
+    event.preventDefault();
+
+    if (randomNum === 0){
+        click1.play()
+    }else if(randomNum === 1){
+        click2.play()
+    }else{
+        click3.play()
+    }
+}
 
 
 

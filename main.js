@@ -9,7 +9,7 @@ function clickBoard(num) {
     rowId = rowId.substring(2)
 
 
-    console.log(`Row: ${rowId} Num: ${num}`) //DEBUG
+    // console.log(`Row: ${rowId} Num: ${num}`) //DEBUG
 
 
     //if trying to click a space that already been clicked on
@@ -47,7 +47,7 @@ function clickBoard(num) {
         trackMoves('o', num, rowId)
 
     }
-    console.log(winTracker)
+    // console.log(winTracker)
 }
 var grid = 3
 winTracker = []
@@ -98,7 +98,7 @@ function winCond(player, rowId, num) {
 function tieCheck() {
     setTimeout(() => {
         if (moveOrder.length >= grid * grid) {
-            alert('Tie')
+            winAlert(`Its a Tie`)
         }
     }, 50)
 
@@ -124,8 +124,6 @@ function winCondRow() {
             }
         }
         if (xtrack == grid || otrack == grid) {
-
-            console.log(winningTiles)
             xtrack == grid ? win('X', winningTiles) : win('O', winningTiles)
             break
         }
@@ -195,7 +193,6 @@ function winCondDia() {
     }
 
     if (firstDiaX == grid || secondDiaX == grid) {
-        console.log(winningTilesX)
         win('X', winningTilesX)
         return
     }
@@ -212,7 +209,7 @@ function winCondDia() {
 
 
 function saveGame() {
-    console.log(moveOrder)
+    // console.log(moveOrder) //DEBUG
     localStorage.setItem('gameState', JSON.stringify(moveOrder))
 
 }
@@ -266,7 +263,6 @@ function reDoMove() {
         winTracker[i][lastImg['row']][lastImg['tile'] - (lastImg['row'] * grid)] = '~'
 
     }
-    console.log(lastImg['tile'], winTracker)
 
     usedTiles.pop()
     index--
@@ -292,16 +288,8 @@ function win(player, winningTiles) {
     }
 
 
-
-
-    setTimeout(() => {
-        alert(`${player} Wins`)
-        newGame(winningTiles)
-    }, 50)
-
-
-
-
+    localStorage.setItem('winningTiles',JSON.stringify(winningTiles))
+    winAlert(`${player} Wins!`)
 
 }
 
@@ -325,7 +313,7 @@ function newGame(winningTiles) {
 
         }
     } catch (error) {
-        console.log('No win')
+        console.log('No win, ')
     }
 
 
@@ -347,8 +335,6 @@ function changeGrid(x) {
         return
     }
     winTrackerFill()
-    console.log(grid)
-    console.log(winTracker)
     oldTrs = document.querySelectorAll('tr')
 
     for (let i = 0; i < oldTrs.length; i++) {
@@ -405,17 +391,30 @@ function hardMode() {
     }
 
     table.style.animation = 'rotate 2s infinite linear'
-    console.log('animation started')
     hardModeStatus = true
 }
 
 function introAnimation() {
-    console.log('test')
-    table = document.getElementById('mainTable')
-    table.style.animation = 'slideIn 1s ease-out';
+    buttons - document.getElementById('buttons')
+
+    banner.style.animation = 'slideInTop 1s ease-in-out';
+}
+let temp = true
+function winAlert(message) {
+    
+    document.getElementById('winText').innerText = message;
+    document.getElementById('winOverlay').style.display = 'flex';
+
+
 }
 
-
+function closeWinOverlay() {
+    
+    winningTiles = JSON.parse(localStorage.getItem('winningTiles'))
+    newGame(winningTiles)
+    document.getElementById('winOverlay').style.display = 'none';
+    
+}
 
 
 

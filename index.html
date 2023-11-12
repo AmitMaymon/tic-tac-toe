@@ -6,13 +6,13 @@
 </head>
 
 <div class="container">
-  <div >
+  <div class="temp-container" >
     <img src="./assets/banner.png" alt="banner" id="banner" style="width: 617px; height: 199px;">
-
-
+    <div id="line" class="horizontal-line"></div>
   </div>
+  
   <body onload="winTrackerFill(),introAnimation()" style="background-color:#a1bfb8;" >
-    <table  class="custom-table" id="mainTable" border="2" style="background-color: transparent; table-layout: fixed;">
+    <table   id="mainTable" border="2" style="background-color: transparent; table-layout: fixed;">
       <tr id="tr0">
         <td id="td0" onclick="clickBoard(0)"></td>
         <td id="td1" onclick="clickBoard(1)"></td>
@@ -30,18 +30,25 @@
       </tr>
     </table>
     <img id="credit" src="./assets/credit.png" alt="" style="width: 154px; height: 48px; opacity: 25%;margin-left: 325px;">
-    <div class="buttons">
+    <div class="buttons" id="buttons">
       <button class="button-30" role="button" onclick="newGame()">New Game</button>
-      <button class="button-30" role="button" onclick="reDoMove()">Re Do</button>
+      <button class="button-30" role="button" onclick="reDoMove()">Re-Do</button>
       <button class="button-30" role="button" onclick="saveGame()">Save Game</button>
       <button class="button-30" role="button" onclick="loadGame()">Load Game</button>
       <button class="button-30" role="button" onclick="showBestScore()">Best Score</button>
       <button class="button-30" role="button" onclick="changeGrid()">Grid</button>
       <button id='test' class="button-30" role="button" onclick="hardMode()">HardMode</button>
     </div>
-    
-    
+
 </div>
+
+<div id="winOverlay" class="overlay">
+  <div class="innerWinOverlay">
+      <p id="winText"></p>
+      <button id="closeWinOverlay" onclick="closeWinOverlay()">Close</button>
+  </div>
+</div>
+
 <script src="main.js"></script>
 </body>
 

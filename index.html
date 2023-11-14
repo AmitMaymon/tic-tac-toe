@@ -14,7 +14,23 @@
   </div>
   
   <body onload="winTrackerFill(),introAnimation()" style="background-color:#a1bfb8;" >
-    <table   id="mainTable" border="2" style="background-color: transparent; table-layout: fixed;">
+    <!-- burger menu -->
+    <div id="burger-menu">&#9776;</div>
+    <div style="display: none;" id="menu">
+      <div id="close-menu">&#10006;Close</div>
+      <ul>
+        <li onclick="newGame(),closeMenu()">New Game</li>
+        <li onclick="reDoMove(),closeMenu()">Re-Do</li>
+        <li onclick="saveGame(),closeMenu()">Save Game</li>
+        <li onclick="loadGame(),closeMenu()">Load Game</li>
+        <li onclick="showBestScore(),closeMenu()">Best Score</li>
+        <!-- <li onclick="changeGrid(),closeMenu()">Grid</li> -->
+        <li onclick="hardMode(),closeMenu()">HardMode</li>
+        
+      </ul>
+    </div>
+ <!-- burger menu end -->
+    <table   id="mainTable" border="2" style="background-color: transparent;">
       <tr id="tr0">
         <td id="td0" onclick="clickBoard(0)"></td>
         <td id="td1" onclick="clickBoard(1)"></td>
@@ -31,7 +47,7 @@
         <td id="td8" onclick="clickBoard(8)"></td>
       </tr>
     </table>
-    <img id="credit" src="./assets/credit.png" alt="" style="width: 154px; height: 48px; opacity: 25%;margin-left: 325px;">
+    <img id="credit" src="./assets/credit.png" alt="">
     <div class="buttons" id="buttons">
       <button class="button-30" role="button" onclick="newGame()">New Game</button>
       <button class="button-30" role="button" onclick="reDoMove()">Re-Do</button>
@@ -51,10 +67,13 @@
   </div>
 </div>
 
+
+
 <script src="main.js"></script>
 <audio src="./assets/click1.wav" id="click1"></audio>
 <audio src="./assets/click2.mp3" id="click2"></audio>
 <audio src="./assets/click3.mp3" id="click3"></audio>
+
 </body>
 
 </html>

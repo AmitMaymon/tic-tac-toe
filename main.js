@@ -410,3 +410,16 @@ function randomClick() {
         click3.play()
     }
 }
+// burger menu
+
+function toggleMenu() {
+    const menu = document.getElementById('menu');
+    menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+  }
+  function closeMenu() {
+    const menu = document.getElementById('menu');
+    menu.style.display = 'none';
+  }
+
+  document.getElementById('burger-menu').addEventListener('click', toggleMenu);
+  document.getElementById('close-menu').addEventListener('click', closeMenu);

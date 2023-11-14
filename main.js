@@ -125,7 +125,7 @@ function winCondRow() {
             }
         }
         if (xtrack == grid || otrack == grid) {
-            xtrack == grid ? win('X', winningTiles) : win('O', winningTiles)
+            xtrack == grid ? win('X', winningTiles,false) : win('O', winningTiles,false)
             break
         }
     }
@@ -148,11 +148,11 @@ function winCondCol() {
             }
         }
         if (countx == grid) {
-            win('X', winningTiles)
+            win('X', winningTiles,false)
             break
         }
         if (counto == grid) {
-            win('O', winningTiles)
+            win('O', winningTiles,false)
             break
         }
         // console.log('Column: ', i, ' - BL: ', boardLine) //DEBUG
@@ -166,49 +166,81 @@ function winCondCol() {
 }
 
 function winCondDia() {
-    let firstDiaX = 0
-    let secondDiaX = 0
-    let firstDiaO = 0
-    let secondDiaO = 0
+    let firstDiaX = 0;
+    let secondDiaX = 0;
+    let firstDiaO = 0;
+    let secondDiaO = 0;
     
-    const winningTilesX = []
-    const winningTilesO = []
+    const winningTilesX = [];
+    const winningTilesO = [];
     
     for (let i = 0; i < grid; i++) {
         if (winTracker[2][i][i] == 'x') {
-                winningTilesX.push(i + (i * grid))
-                firstDiaX++   
+            winningTilesX.push([1,(i * grid) + i]);
+            firstDiaX++;   
         }
         if (winTracker[2][i][i] == 'o') {
-            winningTilesO.push(i + (i * grid))
-            firstDiaO++
+            winningTilesO.push([1,(i * grid)+i]);
+            firstDiaO++;
         }
         if (winTracker[2][i][grid - 1 - i] == 'x') {
-            winningTilesX.push(i + ((grid - 1 - i) * grid))
-            secondDiaX++
-            
+            winningTilesX.push([2,(grid - 1 - i) + i * grid]);
+            secondDiaX++;
         }
         if (winTracker[2][i][grid - 1 - i] == 'o') {
-            winningTilesO.push(i + ((grid - 1 - i) * grid))
-            secondDiaO++
+            winningTilesO.push([2,(grid - 1 - i) + i * grid]);
+            secondDiaO++;
         }
-
     }
-    console.log(winningTilesX,winningTilesO)
     if (firstDiaX == grid || secondDiaX == grid) {
-        win('X', winningTilesX)
-        return
+        if(firstDiaX > secondDiaX){
+            for(let i = 0;i<winningTilesX.length;i++){
+                if(winningTilesX[i][0] == 2){
+                    winningTilesX.splice(i, 1);
+
+                }
+            }
+            
+        }else if(firstDiaX == secondDiaX){
+            console.log('Both Diagonals')
+        }
+        else{
+            for(let i = 0;i<winningTilesX.length;i++){
+                if(winningTilesX[i][0] == 1){
+                    winningTilesX.splice(i, 1);
+
+                }
+            }
+
+
+        }
+        win('X', winningTilesX,true);
+        return;
     }
     if (firstDiaO == grid || secondDiaO == grid) {
-        win('O', winningTilesO)
-        return
+        if(firstDiaO > secondDiaO){
+            for(let i = 0;i<winningTilesO.length;i++){
+                if(winningTilesO[i][0] == 2){
+                    winningTilesO.splice(i, 1);
+
+                }
+            }
+            
+        }else{
+            for(let i = 0;i<winningTilesO.length;i++){
+                if(winningTilesO[i][0] == 1){
+                    winningTilesO.splice(i, 1);
+
+                }
+            }
+
+
+        }
+        win('O', winningTilesO,true);
+        return;
     }
-
-
-
-    // console.log('First: ',firstDiaX,firstDiaO,"\nSecond: ",secondDiaX,secondDiaO) //DEBUG
-
 }
+
 
 
 function saveGame() {
@@ -278,7 +310,12 @@ function reDoMove() {
 let bestScore = 999
 
 isItAwin = false
-function win(player, winningTiles) {
+function win(player, winningTiles,dia) {
+    if(dia ==true){
+        winningTiles = winningTiles.map((data)=>{return data[1]})
+    }
+
+
     localStorage.setItem('bestScore', bestScore)
     for (let i = 0; i < winningTiles.length; i++) {
         tile = document.getElementById(`td${winningTiles[i]}`)
@@ -309,8 +346,9 @@ function newGame(winningTiles) {
 
     }
     try {
-        for (let i = 0; i < winningTiles.length; i++) {
-            tile = document.getElementById(`td${winningTiles[i]}`)
+        console.log(winningTiles)
+        for (let i = 0; i < grid*grid; i++) {
+            tile = document.getElementById(`td${i}`)
             tile.style.border = ''
             tile.classList = ''
 

@@ -1,5 +1,4 @@
 
-
 turn = 0
 usedTiles = []
 
@@ -9,7 +8,7 @@ function clickBoard(num) {
     rowId = rowId.substring(2)
 
     randomClick()
-    
+
     // console.log(`Row: ${rowId} Num: ${num}`) //DEBUG
 
 
@@ -63,20 +62,10 @@ function winTrackerFill() {
             for (let t = 0; t < grid; t++) {
                 winTracker[i][j][t] = '~'
 
-
             }
-
-
         }
-
-
     }
-
-
-
 }
-
-
 
 function winCond(player, rowId, num) {
 
@@ -125,7 +114,7 @@ function winCondRow() {
             }
         }
         if (xtrack == grid || otrack == grid) {
-            xtrack == grid ? win('X', winningTiles,false) : win('O', winningTiles,false)
+            xtrack == grid ? win('X', winningTiles, false) : win('O', winningTiles, false)
             break
         }
     }
@@ -148,21 +137,14 @@ function winCondCol() {
             }
         }
         if (countx == grid) {
-            win('X', winningTiles,false)
+            win('X', winningTiles, false)
             break
         }
         if (counto == grid) {
-            win('O', winningTiles,false)
+            win('O', winningTiles, false)
             break
         }
-        // console.log('Column: ', i, ' - BL: ', boardLine) //DEBUG
-
-
     }
-
-
-
-
 }
 
 function winCondDia() {
@@ -170,78 +152,68 @@ function winCondDia() {
     let secondDiaX = 0;
     let firstDiaO = 0;
     let secondDiaO = 0;
-    
+
     const winningTilesX = [];
     const winningTilesO = [];
-    
+
     for (let i = 0; i < grid; i++) {
         if (winTracker[2][i][i] == 'x') {
-            winningTilesX.push([1,(i * grid) + i]);
-            firstDiaX++;   
+            winningTilesX.push([1, (i * grid) + i]);
+            firstDiaX++;
         }
         if (winTracker[2][i][i] == 'o') {
-            winningTilesO.push([1,(i * grid)+i]);
+            winningTilesO.push([1, (i * grid) + i]);
             firstDiaO++;
         }
         if (winTracker[2][i][grid - 1 - i] == 'x') {
-            winningTilesX.push([2,(grid - 1 - i) + i * grid]);
+            winningTilesX.push([2, (grid - 1 - i) + i * grid]);
             secondDiaX++;
         }
         if (winTracker[2][i][grid - 1 - i] == 'o') {
-            winningTilesO.push([2,(grid - 1 - i) + i * grid]);
+            winningTilesO.push([2, (grid - 1 - i) + i * grid]);
             secondDiaO++;
         }
     }
     if (firstDiaX == grid || secondDiaX == grid) {
-        if(firstDiaX > secondDiaX){
-            for(let i = 0;i<winningTilesX.length;i++){
-                if(winningTilesX[i][0] == 2){
+        if (firstDiaX > secondDiaX) {
+            for (let i = 0; i < winningTilesX.length; i++) {
+                if (winningTilesX[i][0] == 2) {
                     winningTilesX.splice(i, 1);
 
                 }
             }
-            
-        }else if(firstDiaX == secondDiaX){
+
+        } else if (firstDiaX == secondDiaX) {
             console.log('Both Diagonals')
         }
-        else{
-            for(let i = 0;i<winningTilesX.length;i++){
-                if(winningTilesX[i][0] == 1){
+        else {
+            for (let i = 0; i < winningTilesX.length; i++) {
+                if (winningTilesX[i][0] == 1) {
                     winningTilesX.splice(i, 1);
-
                 }
             }
-
-
         }
-        win('X', winningTilesX,true);
+        win('X', winningTilesX, true);
         return;
     }
     if (firstDiaO == grid || secondDiaO == grid) {
-        if(firstDiaO > secondDiaO){
-            for(let i = 0;i<winningTilesO.length;i++){
-                if(winningTilesO[i][0] == 2){
+        if (firstDiaO > secondDiaO) {
+            for (let i = 0; i < winningTilesO.length; i++) {
+                if (winningTilesO[i][0] == 2) {
                     winningTilesO.splice(i, 1);
-
                 }
             }
-            
-        }else{
-            for(let i = 0;i<winningTilesO.length;i++){
-                if(winningTilesO[i][0] == 1){
+        } else {
+            for (let i = 0; i < winningTilesO.length; i++) {
+                if (winningTilesO[i][0] == 1) {
                     winningTilesO.splice(i, 1);
-
                 }
             }
-
-
         }
-        win('O', winningTilesO,true);
+        win('O', winningTilesO, true);
         return;
     }
 }
-
-
 
 function saveGame() {
     // console.log(moveOrder) //DEBUG
@@ -258,7 +230,6 @@ function loadGame() {
 
     }
 }
-
 function showBestScore() {
     if (localStorage.getItem('bestScore') == 999) {
         winAlert('No High scores found')
@@ -269,8 +240,6 @@ function showBestScore() {
 
 
 }
-
-
 
 moveOrder = []
 index = 0
@@ -284,8 +253,6 @@ function trackMoves(player, tile, rowId) {
         'grid': grid
     })
     index++
-    // console.log('Retrace: ',moveOrder) //DEBUG
-
 }
 
 function reDoMove() {
@@ -302,17 +269,14 @@ function reDoMove() {
     usedTiles.pop()
     index--
     turn = turn - 1
-
-
-    // console.log('UTiles: ',usedTiles,' Turn: ',turn,' Move Order: ',moveOrder) //DEBUG
 }
 
 let bestScore = 999
-
 isItAwin = false
-function win(player, winningTiles,dia) {
-    if(dia ==true){
-        winningTiles = winningTiles.map((data)=>{return data[1]})
+
+function win(player, winningTiles, dia) {
+    if (dia == true) {
+        winningTiles = winningTiles.map((data) => { return data[1] })
     }
 
 
@@ -330,10 +294,7 @@ function win(player, winningTiles,dia) {
     isItAwin = true
     localStorage.setItem('winningTiles', JSON.stringify(winningTiles))
     winAlert(`${player} Wins!`)
-    
-
 }
-
 
 function newGame(winningTiles) {
     isItAwin = false
@@ -346,21 +307,15 @@ function newGame(winningTiles) {
 
     }
     try {
-        console.log(winningTiles)
-        for (let i = 0; i < grid*grid; i++) {
+
+        for (let i = 0; i < grid * grid; i++) {
             tile = document.getElementById(`td${i}`)
             tile.style.border = ''
             tile.classList = ''
-
-
-
-
         }
     } catch (error) {
-        console.log('No win, ')
+        console.log('No win')
     }
-
-
     usedTiles = []
     turn = 0
     moveOrder = []
@@ -401,14 +356,10 @@ function changeGrid(x) {
             td = document.createElement('td')
             td.id = `td${idcounter}`
             td.setAttribute('onclick', `clickBoard(${idcounter})`)
-
-
             tr.appendChild(td)
-
             idcounter++
         }
         table.appendChild(tr)
-
     }
 }
 
@@ -417,12 +368,9 @@ function hardMode() {
     const button = document.getElementById('test');
     button.classList.toggle('button-pressed');
 
-
-
     table = document.getElementById('mainTable')
     if (hardModeStatus == true) {
         table.style.animation = ''
-
         hardModeStatus = false
         return
     }
@@ -433,24 +381,18 @@ function hardMode() {
 
 function introAnimation() {
     buttons - document.getElementById('buttons')
-
     banner.style.animation = 'slideInTop 1s ease-in-out';
 }
 let temp = true
 function winAlert(message) {
-
     document.getElementById('winText').innerText = message;
     document.getElementById('winOverlay').style.display = 'flex';
-
-
 }
 
 function closeWinOverlay() {
-
     winningTiles = JSON.parse(localStorage.getItem('winningTiles'))
     newGame(winningTiles)
     document.getElementById('winOverlay').style.display = 'none';
-
 }
 
 function randomClick() {
@@ -458,20 +400,13 @@ function randomClick() {
     click2 = document.getElementById('click2')
     click3 = document.getElementById('click3')
     let randomNum = Math.floor(Math.random() * 3)
-
     event.preventDefault();
 
-    if (randomNum === 0){
+    if (randomNum === 0) {
         click1.play()
-    }else if(randomNum === 1){
+    } else if (randomNum === 1) {
         click2.play()
-    }else{
+    } else {
         click3.play()
     }
 }
-
-
-
-
-
-

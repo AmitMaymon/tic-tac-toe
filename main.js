@@ -331,6 +331,7 @@ function newGame(winningTiles) {
 }
 
 function changeGrid(x) {
+    newGame()
     if (!x) {
         grid = +prompt('Enter the grid size')
     } else {

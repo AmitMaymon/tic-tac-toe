@@ -324,15 +324,18 @@ function newGame(winningTiles) {
 }
 
 function changeGrid(x) {
+    
     newGame()
     if (!x) {
-        grid = +prompt('Enter the grid size')
+        tempGrid = +prompt('Enter the grid size')
     } else {
-        grid = x
+        tempGrid = x
     }
-    if (grid % 2 == 0 || grid < 3) {
+    if (tempGrid % 2 == 0 || tempGrid < 3) {
         alert('Please enter an ODD number above 3')
         return
+    }else{
+        grid = tempGrid
     }
     winTrackerFill()
     oldTrs = document.querySelectorAll('tr')
@@ -361,6 +364,7 @@ function changeGrid(x) {
         }
         table.appendChild(tr)
     }
+    
 }
 
 let hardModeStatus = false

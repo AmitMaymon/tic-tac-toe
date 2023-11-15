@@ -9,7 +9,7 @@
 
 <div class="container">
   <div class="temp-container" >
-    <img src="./assets/banner.png" alt="banner" id="banner" style="width: 617px; height: 199px;">
+    <img src="./assets/banner.png" alt="banner" id="banner" style="width: 617px; height: 199px; visibility: hidden; ">
     <div id="line" class="horizontal-line"></div>
   </div>
   
@@ -56,8 +56,10 @@
       <button class="button-30" role="button" onclick="showBestScore()">Best Score</button>
       <button class="button-30" role="button" onclick="changeGrid()">Grid</button>
       <button id='test' class="button-30" role="button" onclick="hardMode()">HardMode</button>
+      
     </div>
-
+    <br>
+    <button id='testAi' class="button-30" role="button" onclick="toggleAi()">Against Computer</button>
 </div>
 
 <div id="winOverlay" class="overlay">
@@ -66,8 +68,6 @@
       <button id="closeWinOverlay" onclick="closeWinOverlay()">Close</button>
   </div>
 </div>
-
-
 
 <script src="main.js"></script>
 <audio src="./assets/click1.wav" id="click1"></audio>

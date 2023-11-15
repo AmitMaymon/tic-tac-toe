@@ -38,7 +38,7 @@
 @keyframes slideInTop {
 
     0% {
-
+        visibility: visible;
         transform: translateY(100%);
         opacity: 0%;
 
@@ -51,6 +51,7 @@
     100% {
         transform: translateY(0);
         opacity: 100;
+        visibility: visible;
     }
 }
 

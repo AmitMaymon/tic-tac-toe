@@ -1,6 +1,8 @@
 
 turn = 0
 usedTiles = []
+ai = true
+
 
 function clickBoard(num) {
     tile = document.getElementById(`td${num}`)
@@ -8,9 +10,6 @@ function clickBoard(num) {
     rowId = rowId.substring(2)
 
     randomClick()
-
-    // console.log(`Row: ${rowId} Num: ${num}`) //DEBUG
-
 
     //if trying to click a space that already been clicked on
     if (usedTiles.includes(`td${num}`)) {
@@ -29,13 +28,12 @@ function clickBoard(num) {
 
         tile.appendChild(x)
         turn++
-
-        winCond('x', rowId, num)
         trackMoves('x', num, rowId)
+        winCond('x', rowId, num)
+
 
 
     } else {
-
         o = document.createElement('img')
         o.src = './assets/o.png'
         o.id = `tile${num}`
@@ -43,8 +41,9 @@ function clickBoard(num) {
         tile.appendChild(o)
         turn++
 
-        winCond('o', rowId, num)
         trackMoves('o', num, rowId)
+        winCond('o', rowId, num)
+
 
     }
     // console.log(winTracker)
@@ -81,6 +80,13 @@ function winCond(player, rowId, num) {
     winCondDia()
     tieCheck()
 
+    if (ai) {
+        who = turnCheck()
+    }
+    if (who == false) {
+        setTimeout(easyEnemyAi, 500)
+
+    }
 
 
 }
@@ -324,7 +330,7 @@ function newGame(winningTiles) {
 }
 
 function changeGrid(x) {
-    
+
     newGame()
     if (!x) {
         tempGrid = +prompt('Enter the grid size')
@@ -334,7 +340,7 @@ function changeGrid(x) {
     if (tempGrid % 2 == 0 || tempGrid < 3) {
         alert('Please enter an ODD number above 3')
         return
-    }else{
+    } else {
         grid = tempGrid
     }
     winTrackerFill()
@@ -364,7 +370,7 @@ function changeGrid(x) {
         }
         table.appendChild(tr)
     }
-    
+
 }
 
 let hardModeStatus = false
@@ -384,8 +390,9 @@ function hardMode() {
 }
 
 function introAnimation() {
-    buttons - document.getElementById('buttons')
+    buttons = document.getElementById('buttons')
     banner.style.animation = 'slideInTop 1s ease-in-out';
+    banner.style.animationFillMode = 'forwards';
 }
 let temp = true
 function winAlert(message) {
@@ -404,7 +411,7 @@ function randomClick() {
     click2 = document.getElementById('click2')
     click3 = document.getElementById('click3')
     let randomNum = Math.floor(Math.random() * 3)
-    event.preventDefault();
+    // event.preventDefault();
 
     if (randomNum === 0) {
         click1.play()
@@ -419,11 +426,67 @@ function randomClick() {
 function toggleMenu() {
     const menu = document.getElementById('menu');
     menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
-  }
-  function closeMenu() {
+}
+function closeMenu() {
     const menu = document.getElementById('menu');
     menu.style.display = 'none';
-  }
+}
 
-  document.getElementById('burger-menu').addEventListener('click', toggleMenu);
-  document.getElementById('close-menu').addEventListener('click', closeMenu);
+document.getElementById('burger-menu').addEventListener('click', toggleMenu);
+document.getElementById('close-menu').addEventListener('click', closeMenu);
+
+ai = false
+
+function toggleAi() {
+    const button = document.getElementById('testAi');
+    button.classList.toggle('button-pressed');
+
+    if (ai) {
+        ai = false
+        newGame()
+    } else {
+        ai = true
+        newGame()
+    }
+
+}
+
+function easyEnemyAi() {
+    playerThere = true
+
+    randomTile = randomNumber()
+    // console.log(randomTile)
+    for (let i = 0; i < moveOrder.length; i++) {
+        if (randomTile == moveOrder[i].tile && moveOrder.length < (grid * grid) - 1) {
+            i = -1
+            console.log('Player there')
+            randomTile = randomNumber()
+        }
+
+    }
+    if (moveOrder.length < (grid * grid) - 1 && isItAwin == false && ai == true) {
+        clickBoard(randomTile)
+    }
+
+}
+
+
+function turnCheck() {
+    if (turn % 2 == 0) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function randomNumber() {
+    return Math.floor(Math.random() * (grid * grid - 1))
+}
+
+// //{
+//     "index": 2,
+//     "player": "x",
+//     "tile": 5,
+//     "row": "1",
+//     "grid": 3
+// }

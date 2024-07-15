@@ -15,6 +15,10 @@ and the past part is HARD MODE! i really suggest you give it a try!
 
 let me know what you think!
 
+There is a live demo here:
+https://my-tic-your-tac-our-toes.netlify.app
+
+
 
 
 

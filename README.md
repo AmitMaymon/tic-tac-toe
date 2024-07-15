@@ -9,6 +9,10 @@ and hoping to make it better.
 I wrote all of the code and logic apart from some css for button design.
 The code here is not perfect but it was fun and i learned from it a lot.
 
+You can play against a simple Computer logic,
+you can change the grid for an interesting experience.
+and the past part is HARD MODE! i really suggest you give it a try!
+
 let me know what you think!
 
 
